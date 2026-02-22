@@ -1,0 +1,282 @@
+body{
+    background-image: url('pic1.jpg') ;
+    background-size: cover; 
+    background-position: top; 
+    background-repeat: no-repeat;
+}
+
+.wrapper {
+    align-content: center;
+    width: 420px;
+    background: rgba(181, 181, 181, 0.599);
+    border: black;
+    /* background: white;*/ 
+    color: black;
+    border-radius: 10px;
+    padding: 30px 40px;
+    border: 1px solid black;
+    margin-left: 550px;
+    margin-top: 7%;
+    overflow: hidden;
+}
+
+.wrapper h1 {
+    font-size: 36px;
+    text-align: center;
+}
+
+.wrapper .input-box {
+   position: relative;
+   width: 100%;
+   height: 50px;
+   margin: 25px 0;
+   overflow: hidden;
+}
+
+.input-box input{
+    width: 100%;
+    height: 100%;
+    background: white;
+    border: 1px solid black;
+    border-radius: 30px;
+    font-size: 16px;
+    color: black;
+    padding: 20px 45px 20px 20px;
+    transition: all 0.2s linear;
+}
+.input-box input::placeholder{
+    color: black;
+}
+input:is(:focus,:valid)~i{
+    color: orangered;
+}
+.input-box i {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+}
+
+.show_pass{ 
+    color: black;
+    border-radius: 30px;
+    padding:0.9rem 0.5rem;
+}
+.show_pass:hover{
+    background-color: rgb(220, 218, 218);
+}
+.wrapper .btn {
+width: 100%;
+height: 45px;
+background: black;
+border: none;
+outline: none;
+border-radius: 30px;
+box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+cursor: pointer;
+font-size: 16px;
+color: #333;
+font-weight: 600;
+}
+
+.wrapper .register-link {
+font-size: 14.5px;
+text-align: center;
+margin: 20px 0 15px;
+}
+
+.register-link p a {
+color: black;
+text-decoration: none;
+font-weight: 600;
+}
+
+.register-link p a:hover {
+text-decoration: underline;
+}
+
+.icons{
+    text-align:center;
+   
+}
+.icons i{
+    color:black;
+    padding:10px;
+    border-radius:10px;
+    font-size:25px;
+    cursor:pointer;
+    margin-top:100px;
+    border:2px solid #dfe9f5;
+    transition:1s;
+}
+.icons i:hover{
+    background:hsl(283, 89%, 7%);
+    color: white;
+    font-size:30px;
+    border:2px solid rgb(125,125,235);
+}
+
+/* Profile Container */
+.profile-container {
+    display: flex;
+    width: 100%;
+    border-radius: 15px;
+    margin-top: 4%;
+    box-shadow: 0 0 20px rgba(128, 0, 128, 0.5);
+    padding: 20px;
+    gap: 20px;
+    background: rgba(181, 181, 181, 0.599);
+}
+
+/* Left Side: Profile Info */
+.profile-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border-right: 2px solid #800080;
+}
+
+.profile-photo {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid #800080;
+    margin-bottom: 20px;
+}
+
+.profile-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.edit-icon {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: #800080;
+    color: #fff;
+    border-radius: 50%;
+    padding: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.edit-icon:hover {
+    background-color: #b300b3;
+}
+
+.username {
+    font-size: 24px;
+    margin: 10px 0;
+    color: rgb(93, 13, 93);
+    text-shadow: 0 0 10px rgba(128, 0, 128, 0.7);
+}
+
+.gmail, .joining-date {
+    font-size: 16px;
+    margin: 5px 0;
+    color: #ddd;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.gmail, .joining-date {
+    color: rgb(93, 13, 93);
+}
+
+.log{
+    background: rgb(93, 13, 93);
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: 0.3s;
+    margin-top: 20px;
+
+}
+/* Right Side: Order History */
+.order-history {
+    flex: 2;
+    padding: 20px;
+}
+.order-history h2 {
+    font-size: 24px;
+    color: #cba1ff;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px rgba(128, 0, 128, 0.7);
+}
+.sell_desc{
+    color: #1d1c1b;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-top: -30px;
+}
+.sell_btn{
+    background: rgb(93, 13, 93);
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: 0.3s;
+    margin-top: 20px;
+    margin-left: 45%;
+}
+.orders {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.order {
+    background-color: #333;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #800080;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.order:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(128, 0, 128, 0.5);
+}
+
+.order h3 {
+    font-size: 18px;
+    margin: 0 0 10px;
+    color: #800080;
+}
+
+.order p {
+    font-size: 14px;
+    margin: 5px 0;
+    color: #ddd;
+}
+
+/* Scrollbar Styling */
+.orders::-webkit-scrollbar {
+    width: 8px;
+}
+
+.orders::-webkit-scrollbar-track {
+    background: #2a2a2a;
+    border-radius: 5px;
+}
+
+.orders::-webkit-scrollbar-thumb {
+    background: #800080;
+    border-radius: 5px;
+}
+
+.orders::-webkit-scrollbar-thumb:hover {
+    background: #b300b3;
+}

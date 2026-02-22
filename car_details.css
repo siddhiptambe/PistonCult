@@ -1,0 +1,172 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap');
+/* General Styles */
+
+body {
+    font-family: 'Orbitron', sans-serif;
+    background-color: #1e1e1e;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+main{
+    margin-top: 6%;
+}
+/* Hero Section */
+.hero {
+    padding: 100px 0;
+    text-align: center;
+    background-color: #2a2a2a;
+    border-bottom: 2px solid #800080;
+}
+
+.hero h2 {
+    font-size: 36px;
+    color: #ac6bfb;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.hero .tagline {
+    font-size: 20px;
+    color: #cba1ff;
+    font-style: italic;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Features Section */
+.features {
+    padding: 60px 0;
+}
+
+.features h2 {
+    text-align: center;
+    font-size: 32px;
+    color: #ac6bfb;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.feature {
+    background-color: #2a2a2a;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #cba1ff;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 30px 30px rgba(128, 0, 128, 0.3);
+}
+
+.feature h3 {
+    color: #cba1ff;
+    margin-top: 0;
+}
+
+.feature p {
+    margin: 0;
+}
+
+/* Mission Section */
+.mission {
+    padding: 60px 0;
+    background-color: #2a2a2a;
+    border-top: 2px solid #800080;
+    border-bottom: 2px solid #800080;
+}
+
+.mission h2 {
+    text-align: center;
+    font-size: 32px;
+    color: #ac6bfb;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.mission p {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+/* Join Section */
+.join {
+    padding: 60px 0;
+    text-align: center;
+}
+
+.join h2 {
+    font-size: 32px;
+    color: #ac6bfb;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.join p {
+    max-width: 800px;
+    margin: 0 auto 20px;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #800080;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.cta-button:hover {
+    background-color: #b300b3;
+    transform: scale(1.05);
+}
+
+/* Footer */
+footer {
+    background-color: #2a2a2a;
+    padding: 20px 0;
+    border-top: 2px solid #800080;
+    text-align: center;
+}
+
+footer ul {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 0;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+footer ul li a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+footer ul li a:hover {
+    color: #800080;
+}

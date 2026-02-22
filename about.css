@@ -1,0 +1,530 @@
+document.addEventListener('DOMContentLoaded', function() {
+    const APP_ID = 'B8AE47E7-A911-4FA0-852D-072ED197581A'; 
+    const USER_ID = SENDER_USER_ID;
+    const userIdDisplay = document.getElementById('user-id-display');
+    const connectionStatus = document.getElementById('connection-status');
+    const channelsContainer = document.getElementById('channels-container');
+    const loadingIndicator = document.getElementById('loading-indicator');
+    const errorContainer = document.getElementById('error-container');
+    const chatArea = document.getElementById('chat-area');
+    let activeChannelUrl = null;
+    let channelsList = [];
+    userIdDisplay.textContent = USER_ID;
+    updateConnectionStatus('connecting');
+    class SendbirdChatManager 
+    {
+        constructor(appId) 
+        {
+            this.sb = new SendBird({appId: appId});
+            this.currentChannel = null;
+            this.currentUserId = null;
+        }
+        createChannel(userIds) {
+
+            return new Promise((resolve, reject) => {
+                this.sb.GroupChannel.createChannelWithUserIds(userIds, true, (channel, error) => {
+                    if (error) {
+                        reject(error);
+                        return;
+                    }
+                    resolve(channel);
+                });
+            });
+        }
+        connectUser(userId) 
+        {
+            return new Promise((resolve, reject) => {
+                this.sb.connect(userId, (user, error) => {
+                    if (error) 
+                    {
+                        reject(error);
+                        return;
+                    }
+                    this.currentUserId = userId;
+                    resolve(user);
+                });
+            });
+        }
+        loadUserChannels() 
+{
+    return new Promise((resolve, reject) => {
+        const channelListQuery = this.sb.GroupChannel.createMyGroupChannelListQuery();
+        channelListQuery.includeEmpty = true;
+        channelListQuery.limit = 50;
+        channelListQuery.next((channels, error) => {
+            if (error) 
+            {
+                reject(error);
+                return;
+            }
+
+            // Filter channels with exactly two members
+            const filteredChannels = channels.filter(channel => channel.members.length === 2);
+
+            const transformedChannels = filteredChannels.map(channel => {
+                const otherMembers = channel.members.filter(member => 
+                    member.userId !== this.currentUserId
+                );
+                const otherUserName = otherMembers.length > 0 ? 
+                    (otherMembers[0].nickname || otherMembers[0].userId) : 
+                    'No members';
+                let lastMessage = '';
+                if (channel.lastMessage) 
+                {
+                    lastMessage = channel.lastMessage.messageType === 'file' 
+                        ? '[File attachment]' 
+                        : channel.lastMessage.message;
+                }
+                return {
+                    channelUrl: channel.url,
+                    otherUserName: otherUserName,
+                    lastMessage: lastMessage,
+                    unreadMessageCount: channel.unreadMessageCount,
+                    updatedAt: channel.lastMessage ? channel.lastMessage.createdAt : channel.createdAt,
+                    channel: channel
+                };
+            });
+            resolve(transformedChannels);
+        });
+    });
+}
+        
+        getChannel(channelUrl) 
+        {
+            return new Promise((resolve, reject) => {
+                this.sb.GroupChannel.getChannel(channelUrl, (channel, error) => {
+                    if (error) 
+                    {
+                        reject(error);
+                        return;
+                    }
+                    this.currentChannel = channel;
+                    resolve(channel);
+                });
+            });
+        }
+        loadMessages() 
+        {
+            return new Promise((resolve, reject) => {
+                if (!this.currentChannel) 
+                {
+                    reject(new Error('No channel selected'));
+                    return;
+                }
+                const messageListQuery = this.currentChannel.createPreviousMessageListQuery();
+                messageListQuery.limit = 30;
+                messageListQuery.reverse = true;
+                messageListQuery.load((messages, error) => {
+                    if (error) 
+                    {
+                        reject(error);
+                        return;
+                    }
+                    this.currentChannel.markAsRead();
+                    resolve(messages);
+                });
+            });
+        }
+        
+        sendMessage(message) 
+        {
+            return new Promise((resolve, reject) => {
+                if (!this.currentChannel) 
+                {
+                    reject(new Error('No channel selected'));
+                    return;
+                }
+                this.currentChannel.sendUserMessage(message, (message, error) => {
+                    if (error) 
+                    {
+                        reject(error);
+                        return;
+                    }
+                    resolve(message);
+                });
+            });
+        }
+        
+        setMessageReceivedCallback(callback) 
+        {
+            this.sb.addChannelHandler('UNIQUE_HANDLER_ID', {
+                onMessageReceived: (channel, message) => {
+                    if (this.currentChannel && channel.url === this.currentChannel.url) 
+                    {
+                        channel.markAsRead();
+                    }
+                    callback(message);
+                }
+            });
+        }
+        setChannelChangedCallback(callback) 
+        {
+            this.sb.addChannelHandler('CHANNEL_HANDLER_ID', {
+                onChannelChanged: (channel) => {
+                    callback(channel);
+                }
+            });
+        }
+        setTypingStatusUpdatedCallback(callback) {
+            this.sb.addChannelHandler('TYPING_HANDLER_ID', {
+                onTypingStatusUpdated: (channel) => {
+                    callback(channel);
+                }
+            });
+        }
+        setReadReceiptUpdatedCallback(callback) {
+            this.sb.addChannelHandler('READ_RECEIPT_HANDLER_ID', {
+                onReadReceiptUpdated: (channel) => {
+                    callback(channel);
+                }
+            });
+        }
+    }
+    const chatManager = new SendbirdChatManager(APP_ID);
+    function showError(message) 
+    {
+        errorContainer.innerHTML = `<div class="error-message">${message}</div>`;
+    }
+    function clearError() 
+    {
+        errorContainer.innerHTML = '';
+    }
+    function updateConnectionStatus(status) 
+    {
+        connectionStatus.className = 'connection-status';
+        switch (status) 
+        {
+            case 'connected':
+                connectionStatus.classList.add('status-connected');
+                break;
+            case 'connecting':
+                connectionStatus.classList.add('status-connecting');
+                break;
+            case 'disconnected':
+                connectionStatus.classList.add('status-disconnected');
+                break;
+        }
+    }
+    function showLoading() 
+    {
+        loadingIndicator.style.display = 'block';
+    }
+    function hideLoading() 
+    {
+        loadingIndicator.style.display = 'none';
+    }
+    function formatDate(timestamp) 
+    {
+        const date = new Date(timestamp);
+        return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }
+    function renderChannelsList(channels) 
+    {
+        channelsList = channels;
+        channelsContainer.innerHTML = '';
+        channelsContainer.appendChild(loadingIndicator);
+        loadingIndicator.style.display = 'none';
+        if (channels.length === 0) 
+        {
+            const noChannels = document.createElement('p');
+            noChannels.className = 'no-channels';
+            noChannels.textContent = 'No channels found';
+            channelsContainer.appendChild(noChannels);
+            return;
+        }
+        channels.sort((a, b) => b.updatedAt - a.updatedAt);
+        const list = document.createElement('ul');
+        list.className = 'channels-list';
+        channels.forEach(channel => {
+            const listItem = document.createElement('li');
+            listItem.className = 'channel-item';
+            listItem.id = `channel-${channel.channelUrl}`;
+            if (channel.channelUrl === activeChannelUrl) 
+            {
+                listItem.classList.add('active-channel');
+            }
+            listItem.dataset.channelUrl = channel.channelUrl;
+            const channelInfo = document.createElement('div');
+            channelInfo.className = 'channel-info';
+            const channelName = document.createElement('h3');
+            channelName.className = 'channel-name';
+            channelName.textContent = channel.otherUserName;
+            channelInfo.appendChild(channelName);
+            const lastMessage = document.createElement('p');
+            lastMessage.className = 'last-message';
+            lastMessage.textContent = channel.lastMessage || 'No messages yet';
+            channelInfo.appendChild(lastMessage);
+            listItem.appendChild(channelInfo);
+            if (channel.unreadMessageCount > 0) 
+            {
+                const unreadCount = document.createElement('span');
+                unreadCount.className = 'unread-count';
+                unreadCount.textContent = channel.unreadMessageCount;
+                listItem.appendChild(unreadCount);
+            }
+            listItem.addEventListener('click', () => {
+                const allChannels = document.querySelectorAll('.channel-item');
+                allChannels.forEach(item => item.classList.remove('active-channel'));
+                listItem.classList.add('active-channel');
+                activeChannelUrl = channel.channelUrl;
+                loadChannel(channel.channelUrl, channel.otherUserName);
+            });
+            list.appendChild(listItem);
+        });
+        
+        channelsContainer.appendChild(list);
+    }
+
+    function updateChannelInList(channel) 
+    {
+        if (!channelsList.length) return;
+        const channelIndex = channelsList.findIndex(c => c.channelUrl === channel.url);
+        if (channelIndex === -1) return;
+        const otherMember = channel.members.find(member => 
+            member.userId !== chatManager.currentUserId
+        );
+        channelsList[channelIndex] = {
+            ...channelsList[channelIndex],
+            lastMessage: channel.lastMessage ? channel.lastMessage.message : '',
+            unreadMessageCount: channel.unreadMessageCount,
+            updatedAt: channel.lastMessage ? channel.lastMessage.createdAt : channel.createdAt,
+            channel: channel
+        };
+        renderChannelsList(channelsList);
+    }
+
+    function loadChannel(channelUrl, otherUserName) {
+        showLoading();
+        chatManager.getChannel(channelUrl)
+            .then(channel => {
+                renderChatInterface(channel, otherUserName);
+                return chatManager.loadMessages();
+            })
+            .then(messages => {
+                renderMessages(messages);
+                const channelListItem = document.getElementById(`channel-${channelUrl}`);
+                if (channelListItem) 
+                {
+                    const unreadBadge = channelListItem.querySelector('.unread-count');
+                    if (unreadBadge) 
+                    {
+                        unreadBadge.remove();
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error loading channel:', error);
+                showError('Could not load the selected channel.');
+            })
+            .finally(() => {
+                hideLoading();
+            });
+    }
+
+    function renderChatInterface(channel, otherUserName) 
+    {
+        chatArea.innerHTML = '';
+        const chatHeader = document.createElement('div');
+        chatHeader.className = 'chat-header';
+        chatHeader.innerHTML = `<h2>${otherUserName}</h2>`;
+        chatArea.appendChild(chatHeader);
+        const messagesContainer = document.createElement('div');
+        messagesContainer.className = 'chat-messages';
+        messagesContainer.id = 'chat-messages';
+        chatArea.appendChild(messagesContainer);
+        const inputContainer = document.createElement('div');
+        inputContainer.className = 'chat-input-container';
+        const messageInput = document.createElement('textarea');
+        messageInput.id = 'message-input';
+        messageInput.placeholder = 'Type a message...';
+        messageInput.rows = 1;
+        const sendButton = document.createElement('button');
+        sendButton.id = 'send-button';
+        sendButton.innerHTML = '➤';
+        sendButton.disabled = true;
+        inputContainer.appendChild(messageInput);
+        inputContainer.appendChild(sendButton);
+        chatArea.appendChild(inputContainer);
+        messageInput.addEventListener('input', () => {
+            sendButton.disabled = !messageInput.value.trim();
+            if (messageInput.value.trim()) 
+            {
+                channel.startTyping();
+            } 
+            else 
+            {
+                channel.endTyping();
+            }
+        });
+        
+        sendButton.addEventListener('click', () => {
+            const message = messageInput.value.trim();
+            if (!message) return;
+            messageInput.value = '';
+            sendButton.disabled = true;
+            channel.endTyping();
+            chatManager.sendMessage(message)
+                .then(sentMessage => {
+                    addMessageToUI(sentMessage);
+                    scrollToBottom();
+                })
+                .catch(error => {
+                    console.error('Error sending message:', error);
+                    showError('Could not send message.');
+                });
+        });
+        messageInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                if (!sendButton.disabled) {
+                    sendButton.click();
+                }
+            }
+        });
+    }
+
+    function renderMessages(messages) 
+    {
+        const messagesContainer = document.getElementById('chat-messages');
+        if (!messages || messages.length === 0) 
+        {
+            messagesContainer.innerHTML = `
+                <div class="empty-chat">
+                    <h3>No messages yet</h3>
+                    <p>Start the conversation by sending a message</p>
+                </div>
+            `;
+            return;
+        }
+        messagesContainer.innerHTML = '';
+        messages.sort((a, b) => a.createdAt - b.createdAt);
+        messages.forEach(message => {
+            addMessageToUI(message, false);
+        });
+        scrollToBottom();
+    }
+
+    function addMessageToUI(message, isNewMessage = true) 
+    {
+        const messagesContainer = document.getElementById('chat-messages');
+        const emptyChat = messagesContainer.querySelector('.empty-chat');
+        if (emptyChat) 
+        {
+            emptyChat.remove();
+        }
+        const messageElement = document.createElement('div');
+        messageElement.className = 'message';
+        const isMyMessage = message.sender && message.sender.userId === chatManager.currentUserId;
+        messageElement.classList.add(isMyMessage ? 'my-message' : 'their-message');
+        let messageHTML = '';
+        if (!isMyMessage) 
+        {
+            const senderName = message.sender ? (message.sender.nickname || message.sender.userId) : 'Unknown';
+            messageHTML += `<div class="sender-name">${senderName}</div>`;
+        }
+        messageHTML += `
+            <div class="message-content">${message.message}</div>
+            <div class="message-time">${formatDate(message.createdAt)}</div>
+        `;
+        messageElement.innerHTML = messageHTML;
+        messagesContainer.appendChild(messageElement);
+        if (isNewMessage) 
+        {
+            scrollToBottom();
+        }
+    }
+
+    function scrollToBottom() 
+    {
+        const messagesContainer = document.getElementById('chat-messages');
+        if (messagesContainer) 
+        {
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+    }
+
+    function connectUser() {
+        clearError();
+        showLoading();
+        updateConnectionStatus('connecting');
+        chatManager.connectUser(USER_ID)
+            .then(user => {
+                console.log('Connected user:', user);
+                updateConnectionStatus('connected');
+                return chatManager.loadUserChannels();
+            })
+            .then(channels => {
+                // Check if a channel already exists with the receiver
+                const existingChannel = channels.find(channel => {
+                    return channel.otherUserName === RECEIVER_USER_ID;
+                });
+    
+                if (existingChannel) {
+                    // If the channel exists, load it
+                    activeChannelUrl = existingChannel.channelUrl;
+                    loadChannel(existingChannel.channelUrl, existingChannel.otherUserName);
+                } else {
+                    // If the channel does not exist, create a new one
+                    chatManager.createChannel([USER_ID, RECEIVER_USER_ID])
+                        .then(channel => {
+                            activeChannelUrl = channel.url;
+                            loadChannel(channel.url, RECEIVER_USER_ID);
+                        })
+                        .catch(error => {
+                            console.error('Error creating channel:', error);
+                            showError('Failed to create a new channel.');
+                        });
+                }
+                renderChannelsList(channels);
+            })
+            .catch(error => {
+                console.error('Error connecting:', error);
+                showError('Failed to connect to Sendbird. ' + error.message);
+                updateConnectionStatus('disconnected');
+            })
+            .finally(() => {
+                hideLoading();
+            });
+    }
+
+    chatManager.setMessageReceivedCallback(message => {
+        if (chatManager.currentChannel && chatManager.currentChannel.url === message.channelUrl) 
+        {
+            addMessageToUI(message);
+        }
+    });
+    
+    chatManager.setChannelChangedCallback(channel => {
+        updateChannelInList(channel);
+    });
+    
+    chatManager.setTypingStatusUpdatedCallback(channel => {
+        const chatHeader = document.querySelector('.chat-header');
+        if (chatHeader && chatManager.currentChannel && channel.url === chatManager.currentChannel.url) 
+        {
+            const typingMembers = channel.getTypingMembers().filter(member => member.userId !== chatManager.currentUserId);
+            if (typingMembers.length > 0) 
+            {
+                const typingMember = typingMembers[0];
+                const memberName = typingMember.nickname || typingMember.userId;
+                let typingIndicator = chatHeader.querySelector('.typing-indicator');
+                if (!typingIndicator) 
+                {
+                    typingIndicator = document.createElement('div');
+                    typingIndicator.className = 'typing-indicator';
+                    chatHeader.appendChild(typingIndicator);
+                }
+                typingIndicator.textContent = `${memberName} is typing...`;
+            } 
+            else 
+            {
+                const typingIndicator = chatHeader.querySelector('.typing-indicator');
+                if (typingIndicator) 
+                {
+                    typingIndicator.remove();
+                }
+            }
+        }
+    });
+    connectUser();
+});

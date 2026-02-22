@@ -1,0 +1,87 @@
+document.addEventListener("DOMContentLoaded", function () {
+    const categoryMenuCar = document.getElementById("categoryMenuCar");
+    const megaMenuCar = document.getElementById("megaMenuCar");
+    const arrowCar = document.getElementById("arrow");
+
+    categoryMenuCar.addEventListener("click", function (event) {
+        event.stopPropagation();
+        const isOpen = megaMenuCar.classList.contains("show");
+
+        if (isOpen) {
+            megaMenuCar.classList.remove("show");
+            setTimeout(() => megaMenuCar.style.display = "none", 300);
+            arrowCar.textContent = "▼"; // Arrow Down
+        } else {
+            megaMenuCar.style.display = "grid";
+            setTimeout(() => megaMenuCar.classList.add("show"), 10);
+            arrowCar.textContent = "▲"; // Arrow Up
+        }
+    });
+
+    document.addEventListener("click", function (event) {
+        if (!categoryMenuCar.contains(event.target)) {
+            megaMenuCar.classList.remove("show");
+            setTimeout(() => megaMenuCar.style.display = "none", 300);
+            arrowCar.textContent = "▼"; // Reset arrow
+        }
+    });
+});
+ 
+document.addEventListener("DOMContentLoaded", function () {
+    const categoryMenuCar = document.getElementById("categoryMenu");
+    const megaMenuCar = document.getElementById("megaMenu");
+    const arrowCar = document.getElementById("arrow1");
+
+    categoryMenuCar.addEventListener("click", function (event) {
+        event.stopPropagation();
+        const isOpen = megaMenuCar.classList.contains("show");
+
+        if (isOpen) {
+            megaMenuCar.classList.remove("show");
+            setTimeout(() => megaMenuCar.style.display = "none", 300);
+            arrowCar.textContent = "▼"; // Arrow Down
+        } else {
+            megaMenuCar.style.display = "grid";
+            setTimeout(() => megaMenuCar.classList.add("show"), 10);
+            arrowCar.textContent = "▲"; // Arrow Up
+        }
+    });
+
+    document.addEventListener("click", function (event) {
+        if (!categoryMenuCar.contains(event.target)) {
+            megaMenuCar.classList.remove("show");
+            setTimeout(() => megaMenuCar.style.display = "none", 300);
+            arrowCar.textContent = "▼"; // Reset arrow
+        }
+    });
+});
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const categoryMenuCar = document.getElementById("chat");
+    const megaMenuCar = document.getElementById("chatmenu");
+    const arrowCar = document.getElementById("arrow2");
+
+    categoryMenuCar.addEventListener("click", function (event) {
+        event.stopPropagation();
+        const isOpen = megaMenuCar.classList.contains("show");
+
+        if (isOpen) {
+            megaMenuCar.classList.remove("show");
+            setTimeout(() => megaMenuCar.style.display = "none", 300);
+            arrowCar.textContent = "▼"; // Arrow Down
+        } else {
+            megaMenuCar.style.display = "grid";
+            setTimeout(() => megaMenuCar.classList.add("show"), 10);
+            arrowCar.textContent = "▲"; // Arrow Up
+        }
+    });
+
+    document.addEventListener("click", function (event) {
+        if (!categoryMenuCar.contains(event.target)) {
+            megaMenuCar.classList.remove("show");
+            setTimeout(() => megaMenuCar.style.display = "none", 300);
+            arrowCar.textContent = "▼"; // Reset arrow
+        }
+    });
+});

@@ -1,0 +1,278 @@
+.container_chat {
+    max-width: 1000px;
+    margin: 0 auto;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 80vh;
+}
+
+.header_chat {
+    padding: 15px 20px;
+    background-color: #742DDD;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header_chat h1 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.user-display {
+    color: white;
+    font-size: 14px;
+}
+
+#error-container {
+    margin: 0;
+}
+
+.content-area {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+.channels-sidebar {
+    width: 300px;
+    border-right: 1px solid #eee;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.channels-container {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.channels-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.channel-item {
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.channel-item:hover {
+    background-color: #f9f9f9;
+}
+
+.channel-info {
+    flex: 1;
+}
+
+.channel-name {
+    margin: 0 0 5px 0;
+    font-size: 16px;
+    color:#742DDD;
+}
+
+.last-message {
+    margin: 0;
+    color: #666;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+}
+
+.unread-count {
+    background-color: #742DDD;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+}
+
+.no-channels {
+    padding: 20px;
+    text-align: center;
+    color: #666;
+}
+
+.loading {
+    padding: 20px;
+    text-align: center;
+    color: #666;
+}
+
+.error-message {
+    padding: 15px 20px;
+    color: #d32f2f;
+    background-color: #ffebee;
+    margin: 10px 0;
+    border-radius: 4px;
+}
+
+.active-channel {
+    background-color: #f0e5ff;
+}
+
+.chat-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.chat-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+}
+
+.chat-header h2 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.typing-indicator {
+    margin-left: 10px;
+    font-size: 14px;
+    color: #666;
+    font-style: italic;
+}
+
+.chat-messages {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.message {
+    margin-bottom: 15px;
+    max-width: 70%;
+}
+
+.message-content {
+    padding: 10px 15px;
+    border-radius: 18px;
+    display: inline-block;
+}
+
+.message-time {
+    font-size: 12px;
+    color: #999;
+    margin-top: 5px;
+}
+
+.my-message {
+    align-self: flex-end;
+}
+
+.my-message .message-content {
+    background-color: #742DDD;
+    color: white;
+    border-bottom-right-radius: 5px;
+}
+
+.their-message {
+    align-self: flex-start;
+}
+
+.their-message .message-content {
+    background-color: #f1f1f1;
+    color: #333;
+    border-bottom-left-radius: 5px;
+}
+
+.sender-name {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 2px;
+}
+
+.chat-input-container {
+    padding: 15px;
+    border-top: 1px solid #eee;
+    display: flex;
+    align-items: center;
+}
+
+#message-input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    resize: none;
+}
+
+#send-button {
+    margin-left: 10px;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+#send-button:disabled {
+    background-color: #b39ddb;
+}
+
+.empty-chat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #999;
+}
+
+.empty-chat h3 {
+    margin-bottom: 10px;
+}
+
+.no-chat-selected {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #999;
+    background-color: #f9f9f9;
+}
+
+.connection-status {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+.status-connected {
+    background-color: #4CAF50;
+}
+
+.status-connecting {
+    background-color: #FFC107;
+}
+
+.status-disconnected {
+    background-color: #F44336;
+}

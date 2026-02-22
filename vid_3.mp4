@@ -1,0 +1,144 @@
+
+/* Product container styling */
+.cars-title{
+    margin-top: 7%;
+    text-align: center;
+    font-size: 30px;
+}
+
+.product-container {
+    display: flex;
+    margin: 50px auto;
+    max-width: 1400px;
+    background-color: #1f1f1f;
+    border-radius: 8px;
+    padding: 30px;
+    margin-top: 0px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(50px);
+    opacity: 0;
+    animation: fadeInUp 1s ease-out forwards;
+}
+
+.product-img {
+    width: 300px;
+    height: 3s00px;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.product-img:hover {
+    transform: scale(1.1);
+}
+
+.product-info {
+    padding-left: 30px;
+    flex: 1;
+}
+
+.product-title {
+    font-size: 35px;
+    color:#cba1ff;
+    font-weight: bold;
+    margin-bottom: 20px;
+    animation: fadeIn 1s ease-out;
+}
+
+.product-description {
+    margin: 20px 0;
+    color: #aaa;
+    line-height: 1.6;
+    animation: fadeIn 1.2s ease-out;
+}
+
+.product-price {
+    font-size: 25px;
+    font-weight: bold;
+    color: white;
+    animation: fadeIn 1.3s ease-out;
+}
+
+.product-buttons button {
+    margin-top: 20px;
+    padding: 12px 20px;
+    background-color: #800080;
+    color: #fff;
+    font-size: 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.product-buttons button:hover {
+    background-color: #d68f00;
+    transform: scale(1.05);
+}
+
+.cart-container {
+    width: 95%;
+    background: rgba(20, 20, 20, 0.95);
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0px 5px 15px rgba(255, 0, 0, 0.3);
+    border: 2px solid #ff0000;
+    margin-top: 6%;
+    margin-left: 30px;
+    margin-bottom: 2%;
+} 
+
+.cart_title {
+    text-align: center;
+    color: #ffcc00;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.confirm-btn {
+    background: linear-gradient(45deg, #00ff00, #009900);
+    color: black;
+    padding: 12px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: 0.3s;
+    font-family: 'Exo','sans-serif';
+}
+
+.confirm-btn:hover {
+    background: linear-gradient(45deg, #009900, #00ff00);
+    transform: scale(1.1);
+}
+
+/* Animations */
+@keyframes slideInDown {
+    0% {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    0% {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
