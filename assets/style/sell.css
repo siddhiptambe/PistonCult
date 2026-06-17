@@ -1,0 +1,114 @@
+body {
+    background-image: url('purpCF.avif') ;
+    background-size: cover; 
+    background-position: top; 
+    background-repeat: no-repeat;
+}
+
+.form-container {
+    width: 1000px;
+    background: #222;
+    padding: 30px;
+    border-radius: 10px;
+    max-height: 100vh; /* Ensure it fits within the viewport */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; 
+    box-shadow: 0 4px 10px rgba(255, 0, 0, 0.5);
+    margin-left: 17%;
+}
+.form-columns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    overflow-y: auto; /* Allow scrolling inside the form if needed */
+    padding-right: 10px; /* Add padding to avoid overlap with scrollbar */
+}
+.form-group {
+    flex: 1 1 calc(50% - 10px); /* Two columns with gap */
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+h2 {
+    text-align: center;
+    font-family: 'Orbitron', sans-serif;
+    margin-bottom: 20px;
+    color: #cba1ff;
+}
+
+label {
+    font-weight: bold;
+    display: block;
+    margin: 10px 0 5px;
+}
+
+select, input {
+    width: 220px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 5px;
+    background: #333;
+    color: #fff;
+}
+textarea{
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 5px;
+    background: #333;
+    color: #fff;
+}
+input[type="file"] {
+    background: none;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #800080; /* Purple background */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+    text-transform: uppercase; /* Uppercase for a bold look */
+    letter-spacing: 1px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: #b300b3;
+}
+
+/* Scrollbar Styling (for form columns) */
+.form-columns::-webkit-scrollbar {
+    width: 8px;
+}
+
+.form-columns::-webkit-scrollbar-track {
+    background: #1e1e1e; /* Dark track */
+    border-radius: 5px;
+}
+
+.form-columns::-webkit-scrollbar-thumb {
+    background: #800080; /* Purple scrollbar thumb */
+    border-radius: 5px;
+}
+
+.form-columns::-webkit-scrollbar-thumb:hover {
+    background: #b300b3; /* Lighter purple on hover */
+}
+
+.form-row {
+    display: flex;
+    gap: 10px;
+}
+
+.form-row input, .form-row select {
+    flex: 1;
+}

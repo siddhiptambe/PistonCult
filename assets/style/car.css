@@ -1,0 +1,208 @@
+
+.cars-section {
+    padding: 2rem;
+    background-color: var(--background-color);
+    margin: 50px;
+}
+
+.cars-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    animation: fadeInUp 1s ease-out forwards;
+}
+
+.car-card {
+    background-color: black;
+    border: 1px solid var(--accent-color);
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 370px;
+}
+
+.car-card:hover{
+    box-shadow: 10px 10px 20px 20px rgba(128, 0, 128, 0.3);
+}
+
+.car-card img {
+    width: 100%; 
+    height: auto;
+    transition: transform 0.3s ease-in-out;
+}
+
+.car-card:hover img {
+    transform: scale(1.1);
+}
+
+.car-card h3 {
+    color: #cba1ff;
+    margin: 0.5rem 0;
+    animation: fadeIn 1s ease-out;
+}
+
+.car-card p {
+    text-transform:capitalize;
+    margin: 0.5rem;
+    animation: fadeIn 1.2s ease-out;
+} 
+.price{
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    animation: fadeIn 1.3s ease-out;
+}
+.car-card .buy-now {
+    background-color:#800080;
+    color: white;
+    padding: 0.5rem 1rem;
+    margin-bottom: 1rem;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 15px;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.car-card .buy-now:hover {
+    background-color: #d68f00;
+    transform: scale(1.05);
+}
+
+.cart-container {
+    width: 95%;
+    background: rgba(20, 20, 20, 0.95);
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0px 5px 15px rgba(255, 0, 0, 0.3);
+    border: 2px solid #ff0000;
+    margin-top: 6%;
+    margin-left: 30px;
+    margin-bottom: 2%;
+} 
+
+.cart_title {
+    text-align: center;
+    color: #ffcc00;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.confirm-btn {
+    background: linear-gradient(45deg, #00ff00, #009900);
+    color: black;
+    padding: 12px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: 0.3s;
+    font-family: 'Exo','sans-serif';
+}
+
+.confirm-btn:hover {
+    background: linear-gradient(45deg, #009900, #00ff00);
+    transform: scale(1.1);
+}
+
+/* Animations */
+@keyframes slideInDown {
+    0% {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    0% {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/*Contact Us*/
+
+.transaction-box {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    justify-content: center;
+    align-items: center;
+}
+hr{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.transaction-title{
+    color: white;
+    margin-bottom: 5px;
+    font-family: 'Exo','sans-serif';
+}
+.transaction-content {
+    background: #111;
+    padding: 20px;
+    margin-top: 6%;
+    border-radius: 15px;
+    text-align: center;
+    width: 600px;
+    padding-bottom: 30px;
+    border: 2px solid #ffcc00;
+    box-shadow: 0px 5px 15px rgba(255, 255, 0, 0.3);
+    animation: fadeIn 0.3s ease-in-out;
+}
+.total-p{
+    color: white;
+    font-size: 20px;
+    margin-bottom: 10px;
+    font-family: 'Exo','sans-serif';
+}
+
+.confirm-btn {
+    background: linear-gradient(45deg, #00ff00, #009900);
+    color: black;
+    padding: 12px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+    margin-top: 10px;
+    transition: 0.3s;
+    font-family: 'Exo','sans-serif';
+}
+
+.confirm-btn:hover {
+    background: linear-gradient(45deg, #009900, #00ff00);
+    transform: scale(1.1);
+}
+
+/* 🎬 Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
